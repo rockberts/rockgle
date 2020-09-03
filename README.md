@@ -16,7 +16,7 @@ Please read and follow the steps in the [CONTRIBUTING.md](CONTRIBUTING.md)
 See [LICENSE](LICENSE)
 
 ## Comience abriendo el cloud Shell
-![alt text](https://github.com/rockberts/readme/imgs/img.png)
+![alt text](https://github.com/rockberts/rockgle/blob/master/readme/imgs/cloud-shell.png)
 
 git clone https://github.com/rockberts/rockgle.git
 cd rockgle
