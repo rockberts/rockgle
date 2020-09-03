@@ -14,3 +14,12 @@ Please read and follow the steps in the [CONTRIBUTING.md](CONTRIBUTING.md)
 
 ## License
 See [LICENSE](LICENSE)
+
+## Comience abriendo el cloud Shell
+![alt text](https://github.com/rockberts/readme/imgs/img.png)
+
+git clone https://github.com/rockberts/rockgle.git
+cd rockgle
+firebase init
+
+firebase deploy --only firestore
