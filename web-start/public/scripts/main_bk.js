@@ -49,37 +49,18 @@ function isUserSignedIn() {
   return !!firebase.auth().currentUser;
 }
 
-// Saves a new message on the Cloud Firestore.
-function saveMessage(messageText) {
-  // Add a new message entry to the Firebase database.
-  return firebase.firestore().collection('messages').add({
-    name: getUserName(),
-    text: messageText,
-    profilePicUrl: getProfilePicUrl(),
-    timestamp: firebase.firestore.FieldValue.serverTimestamp()
-  }).catch(function(error) {
-    console.error('Error writing new message to Firebase Database', error);
-  });
+function saveMessageRe(messageText) {
+  //var divElementRe = document.getElementById('messages');
+  var query = firebase.firestore().collection('images').where("content", "array-contains", messageText.toLowerCase());
+    query.get().then(function (querySnapshot) {
+    querySnapshot.forEach(function (doc) {
+        var divElementRe = document.getElementById('messages');
+        var message = doc.data();
+        var miimg = message.urlimg
+        divElementRe.innerHTML += '<a href="'+miimg+'" target="_blank"><img id="rex" src="'+miimg+'" width="300" height="300"></a>';
+    }); });
 }
 
-// Loads chat messages history and listens for upcoming ones.
-function loadMessages() {
-  // Create the query to load the last 12 messages and listen for new ones.
-  var query = firebase.firestore().collection('messages').orderBy('timestamp', 'desc').limit(12);
-  
-  // Start listening to the query.
-  query.onSnapshot(function(snapshot) {
-    snapshot.docChanges().forEach(function(change) {
-      if (change.type === 'removed') {
-        deleteMessage(change.doc.id);
-      } else {
-        var message = change.doc.data();
-        displayMessage(change.doc.id, message.timestamp.toMillis(), message.name,
-                       message.text, message.profilePicUrl, message.imageUrl);
-      }
-    });
-  });
-}
 
 // Saves a new message containing an image in Firebase.
 // This first saves the image in Firebase storage.
@@ -93,6 +74,7 @@ function saveImageMessage(file) {
   }).then(function(messageRef) {
     // 2 - Upload the image to Cloud Storage.
     var filePath = firebase.auth().currentUser.uid + '/' + messageRef.id + '/' + file.name;
+    console.log('*RE' + filePath);
     return firebase.storage().ref(filePath).put(file).then(function(fileSnapshot) {
       // 3 - Generate a public URL for the file.
       return fileSnapshot.ref.getDownloadURL().then((url) => {
@@ -164,11 +146,7 @@ function onMessageFormSubmit(e) {
   e.preventDefault();
   // Check that the user entered a message and is signed in.
   if (messageInputElement.value && checkSignedInWithMessage()) {
-    saveMessage(messageInputElement.value).then(function() {
-      // Clear message text field and re-enable the SEND button.
-      resetMaterialTextfield(messageInputElement);
-      toggleButton();
-    });
+    saveMessageRe(messageInputElement.value);
   }
 }
 
@@ -325,6 +303,29 @@ function displayMessage(id, timestamp, name, text, picUrl, imageUrl) {
   messageInputElement.focus();
 }
 
+
+
+
+
+// Displays a Message in the UI.
+function displayMessagere(id, timestamp, text) {
+  var div = document.getElementById(id) || createAndInsertMessage(id, timestamp);
+   div.querySelector('.name').textContent = 're';
+   var messageElement = div.querySelector('.message');
+
+ if (text) { // If the message is text.
+    messageElement.textContent = text;
+    // Replace all line breaks by <br>.
+    messageElement.innerHTML = messageElement.innerHTML.replace(/\n/g, '<br>');
+  };
+}
+
+
+
+
+
+
+
 // Enables or disables the submit button depending on the values of the input
 // fields.
 function toggleButton() {
@@ -380,5 +381,7 @@ mediaCaptureElement.addEventListener('change', onMediaFileSelected);
 // initialize Firebase
 initFirebaseAuth();
 
-// We load currently existing chat messages and listen to new ones.
-loadMessages();
+ // TODO: Enable Firebase Performance Monitoring.
+firebase.performance();
+
+
