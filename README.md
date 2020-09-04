@@ -1,46 +1,41 @@
-# rockgle
-
-# Firebase Codelab: FriendlyChat
-
-This is the source code for the Firebase FriendlyChat codelab. It includes start and end versions of the
-code for Web, Cloud Functions, Performance Monitoring. To get started, open the codelab instructions:
-
- - [Firebase Web Codelab](https://codelabs.developers.google.com/codelabs/firebase-web/).
- - [Firebase SDK for Cloud Functions Codelab](https://codelabs.developers.google.com/codelabs/firebase-cloud-functions/).
- - [Firebase Performance Monitoring for Web Codelab](https://codelabs.developers.google.com/codelabs/firebase-perf-mon-web/).
-
-
-## How to make contributions?
-Please read and follow the steps in the [CONTRIBUTING.md](CONTRIBUTING.md)
-
+# rockgle search engine
 
 ## License
 See [LICENSE](LICENSE)
 
+## Mediante este proyecto puedes crear un buscador de imagenes personalizado utilizando la nube de google cloud
+![alt text](https://github.com/rockberts/rockgle/blob/master/readme/imgs/como-funciona.png)
+## Pre-requisitos
+1) Cuenta de Google cloud
+
+http://console.cloud.google.com/
+
+Una vez creada la cuenta debe crear un nuevo proyecto allí
+![alt text](https://github.com/rockberts/rockgle/blob/master/readme/imgs/select-project.png)
+![alt text](https://github.com/rockberts/rockgle/blob/master/readme/imgs/new-project.png)
 ## Comience abriendo el cloud Shell
 ![alt text](https://github.com/rockberts/rockgle/blob/master/readme/imgs/cloud-shell.png)
 
+Una vez en la consola interactiva clone este proyecto
 git clone https://github.com/rockberts/rockgle.git
 
 cd rockgle
 
-## Prepare el ambiente 
+## Siga los pasos del siguiente code lab (únicamente los que se indican)
+=>>PASO 3, 4, 12 y 13 (siempre ubicandose en la carpeta web-start)
+https://codelabs.developers.google.com/codelabs/firebase-web
 
-npm i -g firebase-tools
+## Active el plan Blaze de pago por uso y la API de google Vision
+![alt text](https://github.com/rockberts/rockgle/blob/master/readme/imgs/active-link.png)
+![alt text](https://github.com/rockberts/rockgle/blob/master/readme/imgs/activar-plan-pago-por-uso.png)
 
-firebase init
+## Vuelva al cloud Shell para instalar las dependencias de la cloud function
+npm install firebase-functions
 
-![alt text](https://github.com/rockberts/rockgle/blob/master/readme/imgs/cloud-shell.png)
-![alt text](https://github.com/rockberts/rockgle/blob/master/readme/imgs/firebase-selecting.png)
-![alt text](https://github.com/rockberts/rockgle/blob/master/readme/imgs/add-to-existing.png)
+nvm install 10.16
 
-firebase login
+npm install sharp
 
+npm i fs-extra
 
-Active la Base de Datos por primera vez
-
-https://console.firebase.google.com/
-
-
-
-firebase deploy --only firestore
+firebase deploy --only functions
