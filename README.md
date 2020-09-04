@@ -30,6 +30,8 @@ https://codelabs.developers.google.com/codelabs/firebase-web
 ![alt text](https://github.com/rockberts/rockgle/blob/master/readme/imgs/activar-plan-pago-por-uso.png)
 
 ## Vuelva al cloud Shell para instalar las dependencias de la cloud function
+(siempre ubicandose en la carpeta web-start)
+
 npm install firebase-functions
 
 nvm install 10.16
